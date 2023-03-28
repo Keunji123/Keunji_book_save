@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Song+Myung&display=swap" rel="stylesheet">
+
+    <title>교보문고 | 서가에없는도서</title>
+
+    <meta property="og:title" content="keunji의 홈페이지" />
+    <meta property="og:description" content="교보문고-재고조사 후 서가에 없는 도서 등록" />
+    <meta property="og:image" content="/static/ogimage.jpeg" />
+
+    <style>
+        * {
+            font-family: 'Song Myung', serif;
+        }
+
+        .wrap {
+            margin: auto;
+            width: 800px;
+        }
+
+        .box {
+            margin: auto;
+            width: 400px;
+            padding: 25px;
+            border-style: solid;
+            border-radius: 10px;
+
+        }
+
+        .mybtn {
+            display: block;
+        }
+
+        /* #message-container {
+            position: absolute;
+            top: 23vh;
+        } */
+
+        .savebox {
+            display: flex;
+            align-items: baseline;
+        }
+    </style>
+
+    <script>
+        function bsregist() {
+            let bsnumber = $('#bsnumber').val()
+            let isbnnumber = $('#isbnnumber').val()
+            $.ajax({
+                type: "POST",
+                url: "/regist3",
+                data: { "bsnum_give": bsnumber, "isbnnum_give": isbnnumber },
+                success: function (response) {
+                    document.querySelector('#isbnnumber').value = ''
+                    document.querySelector('#success-message-box').classList.add('show')
+                    document.querySelector('#success-message').innerHTML = response["msg"]
+                    setTimeout(() => {
+                        document.querySelector('#success-message-box').classList.remove('show')
+                    }, 3000);
+                }
+            })
+        }
+
+    </script>
+
+    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+        <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
+        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+        </symbol>
+        <symbol id="info-fill" fill="currentColor" viewBox="0 0 16 16">
+        <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+        </symbol>
+        <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
+        <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+        </symbol>
+    </svg>
+</head>
+
+<body>
+    <div class="wrap">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">미정</a></li>
+                <li class="breadcrumb-item"><a href="#">Library</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Data</li>
+            </ol>
+        </nav>
+        <div class="jumbotron jumbotron-fluid">
+            <div class="container">
+                <h1 class="display-4">서가 미위치 도서 등록</h1>
+                <p class="lead">재고조사 후 최종적으로 서가에 없는 도서를 등록해 둡니다. 도서를 발견할 경우 삭제합니다.</p>
+            </div>
+        </div>
+
+        <form class="box">
+            <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">서가번호</label>
+                <input type="text" maxlength="6" class="form-control" id="bsnumber" aria-describedby="bookstorenumber"
+                    placeholder="예시 030102" >
+                <div id="bsHelp" class="form-text">서가번호 6자리를 입력하십시오.</div>
+            </div>
+            <div id="isbn" class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">ISBN</label>
+                <input type="text" maxlength="13" class="form-control" id="isbnnumber" placeholder="ISBN 입력" autofocus />
+                <div id="isbnHelp" class="form-text">ISBN 번호를 직접 입력하거나 스캔하십시오.</div>
+            </div>
+            <div class="savebox">
+                <button id="bsbtn" type="button" onclick="bsregist()" class="btn btn-primary">저장</button>
+                <div class="alert alert-success d-flex align-items-center fade" role="alert" id="success-message-box">
+                    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
+                    <div id="success-message">
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                var input = document.getElementById("isbnnumber");
+                input.addEventListener("keyup", onkeyup);
+
+                function onkeyup (event){
+                    if (event.keyCode === 13) {
+                        event.preventDefault();
+                        document.getElementById("bsbtn").click();
+                    }
+                }
+
+                var bsinput = document.getElementById("bsnumber");
+                bsinput.addEventListener("keyup", onkeyup);
+
+            </script>
+
+
+        </form>
+    </div>
+</body>
+
+</html>
